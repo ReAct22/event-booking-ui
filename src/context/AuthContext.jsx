@@ -4,22 +4,48 @@ import api from "../services/api";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const getStoredUser = () => {
+    try {
+      const stored = localStorage.getItem("user");
+      return stored && stored !== "undefined" ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const [user, setUser] = useState(getStoredUser);
 
   const login = async (email, password) => {
     const res = await api.post("/login", { email, password });
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-    setUser(res.data.user);
+
+    const token = res.data.token;
+    const userData = res.data.data;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    setUser(userData);
   };
 
   const register = async (data) => {
-    await api.post("/register", data);
+    const res = await api.post("/register", data);
+
+    const token = res.data.token;
+    const userData = res.data.user;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    setUser(userData);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await api.post("/logout"); // hit backend
+    } catch (err) {
+      console.log(err);
+    }
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
