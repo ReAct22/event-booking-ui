@@ -163,7 +163,7 @@ src/services/api.js
 Example:
 
 const api = axios.create({
-  baseURL: "http://202.10.35.18/api",
+  baseURL: "https://api.and-dev.my.id/api",
 });
 
 ---
