@@ -6,6 +6,10 @@ This frontend focuses on clean state management, authentication flow, and API in
 
 ---
 
+# username & password
+  - email = admin@example.com
+  - password = password123
+
 # 1. Tech Choices
 
 ## Stack Overview
@@ -159,7 +163,7 @@ src/services/api.js
 Example:
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "http://202.10.35.18/api",
 });
 
 ---
@@ -269,3 +273,6 @@ Focus:
 - Easy to extend
 
 The goal is maintainability and clarity over premature optimization.
+
+# 10. Video Testing 
+ - link = https://www.loom.com/share/20580878c8f54f919e76ac75d0008070
